@@ -11,4 +11,3 @@ El objetivo es permitir un control simple y claro de:
 
 El sistema se construye como una aplicación web con API desde el inicio,
 pensada para crecer a futuro (multi-negocio, nuevos frontends, app móvil).
-
