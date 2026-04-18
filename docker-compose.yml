@@ -1,0 +1,28 @@
+services:
+  app:
+    build: .
+    container_name: estupendo-app
+    working_dir: /var/www/html
+    volumes:
+      - ./:/var/www/html   # Esto vincula la carpeta local
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+    command: tail -f /dev/null   # Mantiene el contenedor vivo
+
+  db:
+    image: postgres:15
+    container_name: estupendo-db
+    restart: always
+    environment:
+      POSTGRES_USER: vanetech-admin
+      POSTGRES_PASSWORD: 123456
+      POSTGRES_DB: estupendo-pos
+    ports:
+      - "5432:5432"
+    volumes:
+      - db_data:/var/lib/postgresql/data
+
+volumes:
+  db_data:

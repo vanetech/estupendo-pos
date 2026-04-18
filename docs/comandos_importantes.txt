@@ -1,0 +1,47 @@
+Al encender el PC para volver a trabajar en el proyecto:
+
+1) Abrir Visual Studio Code. Entrar a la carpeta raíz del proyecto C:\Users\PERSONAL\Documents\proyectos\estupendo-pos
+2) Verificar que Docker desktop esté corriendo (running).
+3) Levantar los contenedores:
+	>>	docker compose up -d
+4) Entrar al contenedor de Laravel:
+	>>	docker compose exec app bash
+	Ir a la carpeta laravel:
+	>>	cd laravel
+5) Verificar que artisan esté listo:
+	>> php artisan
+6) Para poner a correr el proyecto, usar el comando:
+	>>	php artisan serve --host=0.0.0.0 --port=8000
+
+
+---------------------------
+
+Comandos GIT:
+
+Crear una rama nueva y cambiarme automáticamente a esa rama:
+
+>>	git checkout -b feature/database-schema
+
+Ver las ramas creadas. El * indica dónde estoy parado ahora:
+
+>>	git Branch
+
+
+
+----------------------------
+
+Migraciones:
+
+
+>>	php artisan make:migration create_business_table
+>>	php artisan make:migration create_users_table
+>>	php artisan make:migration create_payment_methods_table
+>>	php artisan make:migration create_expense_categories_table
+>>      php artisan make:migration create_products_table
+>>	php artisan make:migration create_cash_registers_table
+>>	php artisan make:migration create_cash_shifts_table
+>>	php artisan make:migration create_sales_table
+>>	php artisan make:migration create_clients_table
+
+
+
