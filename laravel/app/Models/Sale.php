@@ -18,6 +18,8 @@ class Sale extends Model
         'tax_amount',
         'invoice_number',
         'status',
+        'preparation_status',
+        'notes',
     ];
 
     public function business(): BelongsTo

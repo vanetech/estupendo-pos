@@ -5,13 +5,23 @@ import { useForm } from '@inertiajs/react';
 export default function ExpensesIndex({ expenses, categories, paymentMethods }) {
     const [isAdding, setIsAdding] = useState(false);
 
-    const { data, setData, post, processing, reset } = useForm({
+    const { data, setData, post, processing, reset, errors } = useForm({
         expense_category_id: categories.length > 0 ? categories[0].id : '',
-        amount: '',
         payment_method_id: paymentMethods.length > 0 ? paymentMethods[0].id : '',
-        expense_date: new Date().toISOString().split('T')[0],
+        amount: '',
         description: '',
+        expense_date: new Date().toISOString().split('T')[0],
     });
+
+    const formatThousands = (val) => {
+        if (!val && val !== 0) return '';
+        const num = val.toString().replace(/[^\d]/g, '');
+        return num ? parseInt(num).toLocaleString('es-CO') : '';
+    };
+
+    const parseRawNumber = (val) => {
+        return val.toString().replace(/[^\d]/g, '');
+    };
 
     const submit = (e) => {
         e.preventDefault();
@@ -75,12 +85,11 @@ export default function ExpensesIndex({ expenses, categories, paymentMethods }) 
                             <div>
                                 <label className="block text-sm font-semibold text-slate-600 mb-2">Valor ($)</label>
                                 <input 
-                                    type="number" 
-                                    step="0.01"
+                                    type="text" 
                                     required
                                     className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 focus:ring-2 focus:ring-rose-500/50 focus:border-rose-500 outline-none"
-                                    value={data.amount}
-                                    onChange={e => setData('amount', e.target.value)}
+                                    value={formatThousands(data.amount)}
+                                    onChange={e => setData('amount', parseRawNumber(e.target.value))}
                                 />
                             </div>
 

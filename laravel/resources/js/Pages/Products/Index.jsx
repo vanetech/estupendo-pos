@@ -12,8 +12,18 @@ export default function ProductsIndex({ products }) {
         price: '',
         cost: '',
         stock: '0',
-        photo: null,
+        image: null,
     });
+
+    const formatThousands = (val) => {
+        if (!val && val !== 0) return '';
+        const num = val.toString().replace(/[^\d]/g, '');
+        return num ? parseInt(num).toLocaleString('es-CO') : '';
+    };
+
+    const parseRawNumber = (val) => {
+        return val.toString().replace(/[^\d]/g, '');
+    };
 
     const handleCreateNew = () => {
         setEditProduct(null);
@@ -91,34 +101,32 @@ export default function ProductsIndex({ products }) {
                             <div>
                                 <label className="block text-sm font-semibold text-slate-600 mb-2">Precio de Venta ($)</label>
                                 <input 
-                                    type="number" 
-                                    step="0.01"
+                                    type="text" 
                                     required
                                     className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-500 outline-none"
-                                    value={data.price}
-                                    onChange={e => setData('price', e.target.value)}
+                                    value={formatThousands(data.price)}
+                                    onChange={e => setData('price', parseRawNumber(e.target.value))}
                                 />
                                 {errors.price && <p className="text-rose-500 text-xs mt-1">{errors.price}</p>}
                             </div>
                             <div>
                                 <label className="block text-sm font-semibold text-slate-600 mb-2">Costo Interno ($)</label>
                                 <input 
-                                    type="number" 
-                                    step="0.01"
+                                    type="text" 
                                     className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-500 outline-none"
-                                    value={data.cost}
-                                    onChange={e => setData('cost', e.target.value)}
+                                    value={formatThousands(data.cost)}
+                                    onChange={e => setData('cost', parseRawNumber(e.target.value))}
                                 />
                                 {errors.cost && <p className="text-rose-500 text-xs mt-1">{errors.cost}</p>}
                             </div>
                             <div>
                                 <label className="block text-sm font-semibold text-slate-600 mb-2">Stock Inicial</label>
                                 <input 
-                                    type="number" 
+                                    type="text" 
                                     required
                                     className="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 focus:ring-2 focus:ring-indigo-500/50 focus:border-indigo-500 outline-none"
-                                    value={data.stock}
-                                    onChange={e => setData('stock', e.target.value)}
+                                    value={formatThousands(data.stock)}
+                                    onChange={e => setData('stock', parseRawNumber(e.target.value))}
                                 />
                                 {errors.stock && <p className="text-rose-500 text-xs mt-1">{errors.stock}</p>}
                             </div>

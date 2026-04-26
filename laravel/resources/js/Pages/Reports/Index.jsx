@@ -8,7 +8,7 @@ export default function ReportsIndex({ stats, dailyStats = [] }) {
             <div className="p-8 max-w-6xl mx-auto space-y-8">
                 <header className="mb-10">
                     <h1 className="text-3xl font-black text-slate-800 tracking-tight">Reportes Financieros</h1>
-                    <p className="text-slate-500 mt-2 text-lg">Resumen global de ventas vs gastos y utilidad neta.</p>
+                    <p className="text-slate-500 mt-2 text-lg">Resumen de ventas vs gastos y utilidad neta para el mes actual.</p>
                 </header>
 
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -17,7 +17,7 @@ export default function ReportsIndex({ stats, dailyStats = [] }) {
                         <div className="absolute right-0 top-0 w-32 h-32 bg-teal-50 rounded-bl-full -z-0"></div>
                         <h3 className="text-slate-500 font-semibold mb-2 relative z-10 flex items-center">
                             <span className="w-2 h-2 rounded-full bg-teal-500 mr-2"></span>
-                            Total Ventas Brutas
+                            Ventas Brutas del Mes
                         </h3>
                         <p className="text-4xl font-black text-slate-800 relative z-10 mt-2">
                             ${parseFloat(stats.totalSales).toLocaleString('es-CO', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
@@ -29,7 +29,7 @@ export default function ReportsIndex({ stats, dailyStats = [] }) {
                         <div className="absolute right-0 top-0 w-32 h-32 bg-rose-50 rounded-bl-full -z-0"></div>
                         <h3 className="text-slate-500 font-semibold mb-2 relative z-10 flex items-center">
                             <span className="w-2 h-2 rounded-full bg-rose-500 mr-2"></span>
-                            Total Gastos
+                            Gastos del Mes
                         </h3>
                         <p className="text-4xl font-black text-slate-800 relative z-10 mt-2">
                             ${parseFloat(stats.totalExpenses).toLocaleString('es-CO', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
@@ -48,12 +48,12 @@ export default function ReportsIndex({ stats, dailyStats = [] }) {
                         <p className="text-5xl font-black relative z-10 mt-2">
                             ${parseFloat(stats.profit).toLocaleString('es-CO', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
                         </p>
-                        <p className="text-sm text-indigo-200 mt-2 z-10 font-medium">Margen Global Referencial</p>
+                        <p className="text-sm text-indigo-200 mt-2 z-10 font-medium">Margen Mensual Referencial</p>
                     </div>
                 </div>
 
                 <div className="bg-white p-8 rounded-3xl shadow-sm border border-slate-100 mt-8">
-                    <h2 className="text-xl font-bold text-slate-800 mb-6">Desglose Diario</h2>
+                    <h2 className="text-xl font-bold text-slate-800 mb-6">Desglose Diario (Mes Actual)</h2>
                     {dailyStats.length === 0 ? (
                         <div className="flex items-center justify-center p-12 border-2 border-dashed border-slate-200 rounded-2xl bg-slate-50">
                             <p className="text-slate-400 font-medium text-center">

@@ -14,23 +14,34 @@ class ReportController extends Controller
     {
         $business = request()->user()->business;
 
+        $currentMonth = now()->month;
+        $currentYear = now()->year;
+
         $totalSales = Sale::where('business_id', $business?->id)
             ->where('status', 'PAID')
+            ->whereMonth('created_at', $currentMonth)
+            ->whereYear('created_at', $currentYear)
             ->sum('total_amount');
 
         $totalExpenses = Expense::where('business_id', $business?->id)
+            ->whereMonth('created_at', $currentMonth)
+            ->whereYear('created_at', $currentYear)
             ->sum('amount');
 
         $profit = $totalSales - $totalExpenses;
 
         $salesByDay = Sale::where('business_id', $business?->id)
             ->where('status', 'PAID')
+            ->whereMonth('created_at', $currentMonth)
+            ->whereYear('created_at', $currentYear)
             ->selectRaw('DATE(created_at) as date, SUM(total_amount) as total')
             ->groupBy('date')
             ->pluck('total', 'date')
             ->toArray();
 
         $expensesByDay = Expense::where('business_id', $business?->id)
+            ->whereMonth('created_at', $currentMonth)
+            ->whereYear('created_at', $currentYear)
             ->selectRaw('DATE(created_at) as date, SUM(amount) as total')
             ->groupBy('date')
             ->pluck('total', 'date')

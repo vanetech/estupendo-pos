@@ -47,6 +47,8 @@ class PosController extends Controller
             'cart.*.price' => 'required|numeric',
             'cart.*.description' => 'nullable|string',
             'discount' => 'nullable|numeric|min:0',
+            'extra_charge' => 'nullable|numeric|min:0',
+            'notes' => 'nullable|string',
             'payments' => 'required|array|min:1',
             'payments.*.payment_method_id' => 'required|exists:payment_methods,id',
             'payments.*.amount' => 'required|numeric|min:0'
@@ -54,10 +56,11 @@ class PosController extends Controller
 
         $shift = CashShift::findOrFail($request->cash_shift_id);
 
-        DB::transaction(function () use ($request, $shift) {
+        $sale = DB::transaction(function () use ($request, $shift) {
             $subTotalAmount = collect($request->cart)->sum(fn($item) => $item['price'] * $item['quantity']);
             $discount = $request->discount ?? 0;
-            $totalAmount = max(0, $subTotalAmount - $discount);
+            $extraCharge = $request->extra_charge ?? 0;
+            $totalAmount = max(0, $subTotalAmount - $discount + $extraCharge);
 
             $totalTendered = collect($request->payments)->sum('amount');
             if ($totalAmount > 0 && $totalTendered < $totalAmount) {
@@ -70,7 +73,9 @@ class PosController extends Controller
                 'cash_shift_id' => $shift->id,
                 'total_amount' => $totalAmount,
                 'discount' => $discount,
+                'extra_charge' => $extraCharge,
                 'status' => 'PAID',
+                'notes' => $request->notes,
             ]);
 
             foreach ($request->cart as $item) {
@@ -104,8 +109,10 @@ class PosController extends Controller
                     $balanceToSave -= $amountToSave;
                 }
             }
+            
+            return $sale;
         });
 
-        return redirect()->back()->with('success', 'Sale completed successfully!');
+        return redirect()->back()->with('success', 'Orden #' . str_pad($sale->id, 5, '0', STR_PAD_LEFT) . ' registrada exitosamente.');
     }
 }
